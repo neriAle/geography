@@ -15,6 +15,7 @@
     "@astrojs/vue": "^7.0.1",
     "@tailwindcss/vite": "^4.3.2",
     "astro": "^7.0.7",
+    "pinia": "^3.0.4",
     "tailwindcss": "^4.3.2",
     "vue": "^3.5.39"
   }
