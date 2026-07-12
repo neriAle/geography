@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import Fuse from "fuse.js";
 
 // 1. Generic Props so this can search ANY array of objects
@@ -11,6 +11,7 @@ const props = defineProps<{
   displayKey: keyof T;
   placeholder?: string;
   disabled?: boolean;
+  autofocus?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -51,6 +52,15 @@ const selectItem = (item: T) => {
   inputRef.value?.blur();
   emit("select", item);
 };
+
+// 6. Focus when the component mounts
+onMounted(() => {
+  if (props.autofocus) {
+    setTimeout(() => {
+      inputRef.value?.focus();
+    }, 50);
+  }
+});
 
 const handleBlur = () => {
   isOpen.value = false;
