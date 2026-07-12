@@ -53,10 +53,7 @@ const selectItem = (item: T) => {
 };
 
 const handleBlur = () => {
-  // Delay closing the dropdown slightly so the click event on the list item can register
-  setTimeout(() => {
-    isOpen.value = false;
-  }, 150);
+  isOpen.value = false;
 };
 </script>
 
@@ -99,7 +96,7 @@ const handleBlur = () => {
           v-for="(item, index) in filteredResults"
           :key="index"
           class="cursor-pointer border-b border-slate-100 px-4 py-3 transition-colors last:border-0 hover:bg-sky-50"
-          @click="selectItem(item)"
+          @mousedown.prevent="selectItem(item)"
         >
           <span class="font-medium text-slate-700">{{
             item[props.displayKey]
