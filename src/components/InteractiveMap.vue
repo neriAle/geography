@@ -58,7 +58,7 @@ onMounted(async () => {
 
     mapFeatures.value = geoData.features.map((feature) => ({
       id: feature.properties.name || feature.id,
-      path: pathGenerator(feature as d3.GeoPermissibleObjects), 
+      path: pathGenerator(feature as d3.GeoPermissibleObjects),
     }));
 
     if (svgRef.value) {
