@@ -1,0 +1,19 @@
+---
+import "../../styles/global.css";
+import CapitalGameEntry from "../../components/games/CapitalGameEntry.vue";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Play - Guess the Capital</title>
+  </head>
+  <body class="min-h-screen bg-slate-50">
+    <!-- Mount the unified Vue app -->
+    <CapitalGameEntry client:load />
+  </body>
+</html>
