@@ -2,6 +2,7 @@ import eslint from "@eslint/js";
 import eslintPluginAstro from "eslint-plugin-astro";
 import eslintPluginVue from "eslint-plugin-vue";
 import tseslint from "typescript-eslint";
+import globals from "globals";
 
 export default [
   {
@@ -12,6 +13,14 @@ export default [
       ".github/**",
       ".vercel/**",
     ],
+  },
+
+  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+      },
+    },
   },
 
   // Base ESLint & TypeScript Rules
