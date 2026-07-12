@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import type { CountryData } from "../types";
-import countriesData from "../data/countries.json";
+import type { CountryData } from "../../types";
+import countriesData from "../../data/countries.json";
 
 const props = defineProps<{
   gameTitle: string;

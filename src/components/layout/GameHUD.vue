@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useGameStore } from "../stores/gameStore";
-import Button from "./Button.vue";
+import { useGameStore } from "../../stores/gameStore.js";
+import Button from "../ui/Button.vue";
 
 const store = useGameStore();
 
