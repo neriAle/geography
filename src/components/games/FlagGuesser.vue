@@ -201,7 +201,7 @@ const handleGuess = (selectedCountry: CountryData) => {
         </div>
       </div>
 
-      <div class="flex justify-center gap-4">
+      <div class="flex flex-wrap justify-center gap-3">
         <a
           href=""
           class="rounded-xl bg-(--brand-primary) px-6 py-3 font-bold text-white shadow-md transition-colors hover:bg-sky-500"
@@ -213,6 +213,12 @@ const handleGuess = (selectedCountry: CountryData) => {
           class="rounded-xl bg-slate-200 px-6 py-3 font-bold text-slate-700 transition-colors hover:bg-slate-300"
         >
           Change Settings
+        </a>
+        <a
+          href="/"
+          class="rounded-xl bg-slate-100 px-6 py-3 font-bold text-slate-500 transition-colors hover:bg-slate-200"
+        >
+          Home
         </a>
       </div>
     </div>
