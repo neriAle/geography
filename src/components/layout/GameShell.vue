@@ -2,7 +2,7 @@
 import GameHUD from "./GameHUD.vue";
 
 const handleExit = () => {
-  console.log("Returning to Main Menu...");
+  window.location.href = "/";
 };
 </script>
 
