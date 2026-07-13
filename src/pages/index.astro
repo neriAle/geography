@@ -1,17 +1,55 @@
 ---
+import "../styles/global.css";
+// Update the import to point to the .astro file!
+import GameCard from "../components/ui/GameCard.astro";
 
+// Import the raw image files so Astro's bundler can optimize them
+import iconCapital from "../assets/icons/capital.png";
+import iconMap from "../assets/icons/world-map.png";
+import iconFlag from "../assets/icons/flag.png"; // Ready for the next game!
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Geography Games Hub</title>
   </head>
-  <body>
-    <h1>Astro</h1>
+  <body class="min-h-screen bg-slate-50 pt-[env(safe-area-inset-top)]">
+    <main class="mx-auto max-w-4xl px-4 py-12 md:py-20">
+      <div class="mb-12 text-center md:mb-16">
+        <h1 class="mb-4 text-5xl font-black text-slate-900 md:text-6xl">
+          Geo<span class="text-(--brand-primary)">Hub</span>
+        </h1>
+        <p class="text-lg font-medium text-slate-500">
+          Master the world map. Play offline. Zero ads.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <GameCard
+          title="Guess the Capital"
+          description="Test your knowledge of world capitals. Type or search for the correct answer."
+          icon={iconCapital}
+          href="/setup/capitals"
+        />
+        <GameCard
+          title="Find the Country"
+          description="Locate the target country on an interactive, zoomable world map."
+          icon={iconMap}
+          href="/setup/countries"
+        />
+        <GameCard
+          title="Guess the Flag"
+          description="Identify the correct country based on its national flag."
+          icon={iconFlag}
+          href="/setup/flags"
+        />
+      </div>
+    </main>
   </body>
 </html>
