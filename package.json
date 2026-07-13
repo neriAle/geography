@@ -16,6 +16,11 @@
     "lint:fix": "eslint . --fix",
     "test": "vitest run"
   },
+  "overrides": {
+    "@vite-pwa/astro": {
+      "astro": "$astro"
+    }
+  },
   "dependencies": {
     "@astrojs/vue": "^7.0.1",
     "@tailwindcss/vite": "^4.3.2",
