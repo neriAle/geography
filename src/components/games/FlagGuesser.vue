@@ -57,7 +57,9 @@ const handleGuess = (selectedCountry: CountryData) => {
 
   userGuess.value = selectedCountry;
 
-  if (selectedCountry.code === currentTarget.value.code) {
+  // Check if the flags match, not the specific ISO codes
+  // Changed for edge case of countries with same flag (e.g. Norway and Svalbard)
+  if (selectedCountry.flag === currentTarget.value.flag) {
     feedback.value = "correct";
     store.incrementScore(100);
   } else {
@@ -65,7 +67,7 @@ const handleGuess = (selectedCountry: CountryData) => {
     store.resetStreak();
   }
 
-  // Wait 2.5 seconds to read the feedback, then move on
+  // Wait 3 seconds to read the feedback, then move on
   setTimeout(() => {
     feedback.value = null;
     userGuess.value = null;
@@ -75,7 +77,7 @@ const handleGuess = (selectedCountry: CountryData) => {
     } else {
       store.endGame();
     }
-  }, 2500);
+  }, 3000);
 };
 </script>
 
@@ -165,6 +167,17 @@ const handleGuess = (selectedCountry: CountryData) => {
                 currentTarget.name
               }}</span
               >.
+            </p>
+
+            <p
+              v-if="
+                feedback === 'correct' &&
+                userGuess?.code !== currentTarget?.code
+              "
+              class="mt-3 rounded-lg bg-green-100 p-2 text-sm font-bold text-green-700"
+            >
+              Fun Fact: {{ userGuess?.name }} and
+              {{ currentTarget?.name }} share the exact same flag!
             </p>
           </div>
         </Transition>
