@@ -2,6 +2,8 @@
 import { ref, onMounted, shallowRef } from "vue";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
+import countriesData from "../../data/countries.json";
+import type { CountryData } from "../../types";
 
 // Dynamic Type Extraction
 type TopoTopology = Parameters<typeof topojson.feature>[0];
@@ -42,6 +44,16 @@ const projection = d3
   .fitSize([width, height], { type: "Sphere" });
 const pathGenerator = d3.geoPath().projection(projection);
 
+// Text normalizer to strip spaces and accents for matching
+const normalize = (str: string) => {
+  if (!str) return "";
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z]/gi, "")
+    .toLowerCase();
+};
+
 onMounted(async () => {
   try {
     const response = await fetch("/data/world-110m.topo.json");
@@ -56,10 +68,23 @@ onMounted(async () => {
       countriesGeometry,
     ) as unknown as { features: GeoFeature[] };
 
-    mapFeatures.value = geoData.features.map((feature) => ({
-      id: feature.properties.name || feature.id,
-      path: pathGenerator(feature as d3.GeoPermissibleObjects),
-    }));
+    // Cross-reference the map name with the dictionary to extract the ISO code
+    const dictionary = countriesData as CountryData[];
+
+    mapFeatures.value = geoData.features.map((feature) => {
+      const mapName = feature.properties.name || "";
+
+      const matchedCountry = dictionary.find((c) => {
+        const a = normalize(c.name);
+        const b = normalize(mapName);
+        return a === b || a.includes(b) || b.includes(a);
+      });
+
+      return {
+        id: matchedCountry ? matchedCountry.code : mapName,
+        path: pathGenerator(feature as d3.GeoPermissibleObjects),
+      };
+    });
 
     if (svgRef.value) {
       const zoom = d3
