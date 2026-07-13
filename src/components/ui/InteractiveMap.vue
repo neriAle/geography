@@ -23,12 +23,15 @@ interface MapFeature {
 
 // Component Props & Emits
 const props = defineProps<{
-  highlightedIds?: string[];
+  targetId?: string | null;
+  guessedId?: string | null;
   interactive?: boolean;
 }>();
 
+// Emit to tell the engine what countries are actually playable
 const emit = defineEmits<{
   (e: "country-clicked", id: string): void;
+  (e: "map-ready", validIds: string[]): void;
 }>();
 
 // State
@@ -86,10 +89,16 @@ onMounted(async () => {
       };
     });
 
+    // Extract only valid ISO codes (length 2) that match the dictionary
+    const validPlayableIsos = mapFeatures.value
+      .map((f) => f.id)
+      .filter((id) => id.length === 2);
+    emit("map-ready", validPlayableIsos);
+
     if (svgRef.value) {
       const zoom = d3
         .zoom<SVGSVGElement, unknown>()
-        .scaleExtent([1, 8])
+        .scaleExtent([1, 40])
         .translateExtent([
           [0, 0],
           [width, height],
@@ -112,12 +121,28 @@ const handleCountryClick = (id: string) => {
 };
 
 const getCountryClass = (id: string) => {
-  const isHighlighted = props.highlightedIds?.includes(id);
+  const isTarget = props.targetId === id;
+  const isGuessed = props.guessedId === id;
+
+  let fillClass = "fill-slate-300";
+
+  // Correct guess
+  if (isTarget && isGuessed) {
+    fillClass = "fill-green-400";
+
+    // Show correct answer after wrong guess
+  } else if (isTarget && props.guessedId) {
+    fillClass = "fill-green-400";
+
+    // Wrong guess
+  } else if (isGuessed && !isTarget) {
+    fillClass = "fill-red-400";
+  }
 
   return [
-    "transition-colors duration-200 cursor-pointer outline-none stroke-white stroke-[0.5]",
-    isHighlighted ? "fill-(--brand-green)" : "fill-slate-300",
-    props.interactive && !isHighlighted ? "hover:fill-(--brand-primary)" : "",
+    "transition-colors duration-200 cursor-pointer outline-none stroke-white",
+    fillClass,
+    props.interactive && !props.guessedId ? "hover:fill-(--brand-primary)" : "",
   ];
 };
 </script>
@@ -133,6 +158,8 @@ const getCountryClass = (id: string) => {
           :key="country.id"
           :d="country.path || ''"
           :class="getCountryClass(country.id)"
+          vector-effect="non-scaling-stroke"
+          stroke-width="1"
           @click="handleCountryClick(country.id)"
         />
       </g>
