@@ -9,7 +9,7 @@ const props = defineProps<{
   destinationRoute: string;
 }>();
 
-// 1. Dynamically extract unique continents from our dataset
+// 1. Dynamically extract unique continents from the dataset
 const availableContinents = computed(() => {
   const continents = (countriesData as CountryData[])
     .map((c) => c.continent)
@@ -51,18 +51,20 @@ const startUrl = computed(() => {
 
 <template>
   <div
-    class="mx-auto mt-12 max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+    class="mx-auto mt-12 w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
   >
+    <!-- Header -->
     <div class="mb-8 text-center">
       <h1 class="text-3xl font-black text-slate-800">{{ props.gameTitle }}</h1>
       <p class="mt-2 text-slate-500">{{ props.gameDescription }}</p>
     </div>
 
+    <!-- Section: Number of Rounds -->
     <div class="mb-8">
       <h2
         class="mb-4 text-sm font-bold tracking-widest text-slate-400 uppercase"
       >
-        Numero di Round
+        Number of Rounds
       </h2>
       <div class="flex gap-3">
         <button
@@ -81,16 +83,17 @@ const startUrl = computed(() => {
       </div>
     </div>
 
+    <!-- Section: Continents -->
     <div class="mb-10">
       <div class="mb-4 flex items-end justify-between">
         <h2 class="text-sm font-bold tracking-widest text-slate-400 uppercase">
-          Continenti
+          Continents
         </h2>
         <span class="text-xs font-medium text-slate-400">
           {{
             selectedContinents.length === 0
-              ? "Mondo Intero"
-              : `${selectedContinents.length} Selezionati`
+              ? "Whole World"
+              : `${selectedContinents.length} Selected`
           }}
         </span>
       </div>
@@ -112,11 +115,19 @@ const startUrl = computed(() => {
       </div>
     </div>
 
-    <a
-      :href="startUrl"
-      class="block w-full rounded-xl bg-(--brand-green) py-4 text-center text-xl font-black text-slate-900 shadow-md transition-colors hover:bg-green-400 active:scale-[0.98]"
-    >
-      Inizia Partita
-    </a>
+    <div class="flex flex-col gap-3">
+      <a
+        :href="startUrl"
+        class="block w-full rounded-xl bg-(--brand-green) py-4 text-center text-xl font-black text-slate-900 shadow-md transition-colors hover:bg-green-400 active:scale-[0.98]"
+      >
+        Start Game
+      </a>
+      <a
+        href="/"
+        class="block w-full rounded-xl bg-slate-100 py-4 text-center text-lg font-bold text-slate-500 transition-colors hover:bg-slate-200"
+      >
+        Back to Home
+      </a>
+    </div>
   </div>
 </template>
