@@ -6,6 +6,7 @@ export const useGameStore = defineStore("game", () => {
   // State
   const score = ref<number>(0);
   const streak = ref<number>(0);
+  const bestStreak = ref<number>(0);
   const currentRound = ref<number>(1);
   const maxRounds = ref<number>(10);
   const status = ref<GameStatus>("idle");
@@ -14,6 +15,7 @@ export const useGameStore = defineStore("game", () => {
   const startGame = (rounds: number = 10) => {
     score.value = 0;
     streak.value = 0;
+    bestStreak.value = 0;
     currentRound.value = 1;
     maxRounds.value = rounds;
     status.value = "playing";
@@ -37,6 +39,9 @@ export const useGameStore = defineStore("game", () => {
     if (status.value !== "playing") return;
     score.value += points;
     streak.value++;
+    if (streak.value > bestStreak.value) {
+      bestStreak.value = streak.value;
+    }
   };
 
   const resetStreak = () => {
@@ -46,6 +51,7 @@ export const useGameStore = defineStore("game", () => {
   return {
     score,
     streak,
+    bestStreak,
     currentRound,
     maxRounds,
     status,

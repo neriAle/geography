@@ -1,0 +1,23 @@
+---
+import "../../styles/global.css";
+import GameSetup from "../../components/setup/GameSetup.vue";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Settings - Guess the Flag</title>
+  </head>
+  <body class="min-h-screen bg-slate-50">
+    <GameSetup
+      client:load
+      gameTitle="Guess the Flag"
+      gameDescription="Identify the correct country based on its national flag."
+      destinationRoute="/play/flags"
+    />
+  </body>
+</html>
